@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+
+    <title>SOAP API Testing</title>
+
+    <meta name="description" content="A presentation about the SOAP API Testing"/>
+    <meta name="author" content="Krzysztof Komorowski"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme"/>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+            <h1>SOAP API Testing</h1>
+            <h2>Krzysztof Komorowski</h2>
+        </section>
+        <section>
+            <h2>What is SOAP API?</h2>
+            <span class="fragment">Simple</span> 
+            <span class="fragment">Object</span> 
+            <span class="fragment">Access</span> 
+            <span class="fragment">Protocol</span>
+        </section>
+        <section>
+          <h2>SOAP History</h2>
+          <p>SOAP is a successor of much previous technologies - RPC and XML-RPC.</p>
+          <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> on SOAP was published on May 8, 2000.</p>
+        </section>
+        <section>
+            <section>
+                <h2>Synchronous and asynchronous calls</h2>
+            </section>
+            <section>
+            <h3>Synchronous Call</h3>
+            <div class="mermaid">
+                <pre>
+                    sequenceDiagram
+                    
+                    Client ->> Server: POST /service - GetDevicesRequest
+                    Server ->> Client: HTTP 200 - GetDevicesResponse
+                </pre>
+            </div>
+            </section>
+            <section>
+            <h3>Asynchronous Call</h3>
+            <div class="mermaid">
+                <pre>
+                    sequenceDiagram
+                    
+                    Client ->> Server: POST /service - ChangeStateRequest
+                    Server -->> Client: HTTP 201 Accepted
+
+                    Note over Server, Client: Server handles the request
+
+                    Server ->> Client: POST /callback - ChangeStateResponse
+                    Client -->> Server: HTTP 201 Accepted
+                </pre>
+            </div>
+            </section>
+            <section>
+                <h3>Notification</h3>
+                <div class="mermaid">
+                    <pre>
+                        sequenceDiagram
+                        Device -->> Server: Triggers the notification
+                        Server ->> Client: POST /notification - StateChangedNotification
+                        Client -->> Server: HTTP 201 Accepted
+                    </pre>
+                </div>
+            </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@1.1.0/plugin/mermaid/mermaid.js"></script>
+    <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+        mermaid: {},
+        plugins: [RevealMermaid],
+      });
+    </script>
+  </body>
+</html>
