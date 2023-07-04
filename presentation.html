@@ -10,16 +10,22 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme"/>
+    <style>
+      code { font-size: smaller;}
+    </style>
   </head>
 
   <body>
     <div class="reveal">
       <div class="slides">
+
         <section>
             <h1>SOAP API Testing</h1>
             <h2>Krzysztof Komorowski</h2>
         </section>
+        
         <section>
             <h2>What is SOAP API?</h2>
             <span class="fragment">Simple</span> 
@@ -27,11 +33,28 @@
             <span class="fragment">Access</span> 
             <span class="fragment">Protocol</span>
         </section>
+        
         <section>
           <h2>SOAP History</h2>
           <p>SOAP is a successor of much previous technologies - RPC and XML-RPC.</p>
           <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> on SOAP was published on May 8, 2000.</p>
         </section>
+        
+        <section>
+          <h2>Basic structure of SOAP message</h2>
+          <pre><code class="xml" data-trim data-line-numbers="1-7|3|4-6|1-7">
+            <script type="text/template">
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                    xmlns:web="https://soap.hiquality.dev/smarthome">
+                  <soapenv:Header/>
+                  <soapenv:Body>
+                      <web:GetDevicesRequest/>
+                  </soapenv:Body>
+              </soapenv:Envelope>
+            </script>
+          </code></pre>
+        </section>
+        
         <section>
             <section>
                 <h2>Synchronous and asynchronous calls</h2>
@@ -47,6 +70,7 @@
                 </pre>
             </div>
             </section>
+        
             <section>
             <h3>Asynchronous Call</h3>
             <div class="mermaid">
@@ -63,6 +87,7 @@
                 </pre>
             </div>
             </section>
+        
             <section>
                 <h3>Notification</h3>
                 <div class="mermaid">
@@ -79,6 +104,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@1.1.0/plugin/mermaid/mermaid.js"></script>
     <script>
       Reveal.initialize({
@@ -87,7 +113,7 @@
         center: true,
         hash: true,
         mermaid: {},
-        plugins: [RevealMermaid],
+        plugins: [RevealMermaid, RevealHighlight],
       });
     </script>
   </body>
