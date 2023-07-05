@@ -27,24 +27,26 @@
         </section>
         
         <section>
-            <h2>What is SOAP API?</h2>
-            <span class="fragment">Simple</span> 
-            <span class="fragment">Object</span> 
-            <span class="fragment">Access</span> 
-            <span class="fragment">Protocol</span>
+          <h2>What is SOAP API?</h2>
+          <span class="fragment">Simple</span> 
+          <span class="fragment">Object</span> 
+          <span class="fragment">Access</span> 
+          <span class="fragment">Protocol</span>
         </section>
         
         <section>
           <h2>SOAP History</h2>
           <p>SOAP is a successor of much previous technologies - RPC and XML-RPC.</p>
-          <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> on SOAP was published on May 8, 2000.</p>
+          <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> 
+            on SOAP was published on May 8, 2000.</p>
         </section>
         
         <section>
           <h2>Basic structure of SOAP message</h2>
-          <pre><code class="xml" data-trim data-line-numbers="1-7|3|4-6|1-7">
+          <pre><code class="xml" data-trim data-line-numbers="1-8|4|5-7|1-8">
             <script type="text/template">
-              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+              <soapenv:Envelope 
+                    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
                     xmlns:web="https://soap.hiquality.dev/smarthome">
                   <soapenv:Header/>
                   <soapenv:Body>
@@ -53,58 +55,124 @@
               </soapenv:Envelope>
             </script>
           </code></pre>
+          <aside class="notes">
+            <p>Here is a breakdown of the components that make up a SOAP message:</p>
+            <dl>
+              <dt>Envelope</dt>
+              <dd>The envelope is the outermost container for the SOAP message. 
+                It defines the XML namespace for SOAP and includes the SOAP header 
+                and body elements.</dd>
+            </dl>
+            <dl>
+              <dt>Header (optional)</dt>
+              <dd>The header contains additional information about the SOAP message, 
+                such as authentication credentials, message routing details, 
+                or custom headers defined by the application. It is not mandatory 
+                and can be omitted if not required.</dd>
+            </dl>
+            <dl>
+              <dt>Body</dt>
+              <dd>
+                The body contains the actual content of the SOAP message.
+                It carries the request or response data that needs to be
+                transmitted between the SOAP sender and the receiver.
+                The body can contain one or more XML elements representing
+                the data being exchanged.
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>Fault (optional)</dt>
+              <dd>
+                In case of errors or exceptions during message processing,
+                the fault element is used to carry error information. It provides
+                details about the error, including a fault code, fault string,
+                and optional fault details.
+              </dd>
+            </dl>
+
+          </aside>
+        </section>
+
+        <section>
+          <h2>XSD</h2>
+          <aside class="notes">
+            <p>
+              XSD (XML Schema Definition), also known as XML Schema, is a language
+              used to describe the structure, content, and data types of
+              XML documents. It provides a way to define the rules and constraints
+              that XML documents must adhere to in order to be considered valid.
+            </p>
+            <p>
+              JSON Schema validation is the XSD counterpart on the REST world.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>WSDL</h2>
+          <aside class="notes">
+            <p>
+              WSDL stands for Web Services Description Language. It is
+              an XML-based language used to describe the interface
+              and functionality of a web service. WSDL provides a standardized way
+              to define the operations, messages, data types, and protocols
+              used by a web service, allowing clients to understand how to
+              interact with the service.
+            </p>
+            <p>The WSDL might be compared to the OpenAPI / Swagger definitions.</p>
+          </aside>
         </section>
         
         <section>
-            <section>
-                <h2>Synchronous and asynchronous calls</h2>
-            </section>
-            <section>
-            <h3>Synchronous Call</h3>
-            <div class="mermaid">
-                <pre>
-                    sequenceDiagram
-                    
-                    Client ->> Server: POST /service - GetDevicesRequest
-                    Server ->> Client: HTTP 200 - GetDevicesResponse
-                </pre>
-            </div>
-            </section>
-        
-            <section>
-            <h3>Asynchronous Call</h3>
-            <div class="mermaid">
-                <pre>
-                    sequenceDiagram
-                    
-                    Client ->> Server: POST /service - ChangeStateRequest
-                    Server -->> Client: HTTP 201 Accepted
+          <h2>Synchronous and asynchronous calls</h2>
+        </section>
+        <section>
+        <h3>Synchronous Call</h3>
+        <div class="mermaid">
+          <pre>
+              sequenceDiagram
+              
+              Client ->> Server: POST /service - GetDevicesRequest
+              Server ->> Client: HTTP 200 - GetDevicesResponse
+          </pre>
+        </div>
+        </section>
+    
+        <section>
+        <h3>Asynchronous Call</h3>
+        <div class="mermaid">
+          <pre>
+              sequenceDiagram
+              
+              Client ->> Server: POST /service - ChangeStateRequest
+              Server -->> Client: HTTP 201 Accepted
 
-                    Note over Server, Client: Server handles the request
+              Note over Server, Client: Server handles the request
 
-                    Server ->> Client: POST /callback - ChangeStateResponse
-                    Client -->> Server: HTTP 201 Accepted
-                </pre>
-            </div>
-            </section>
-        
-            <section>
-                <h3>Notification</h3>
-                <div class="mermaid">
-                    <pre>
-                        sequenceDiagram
-                        Device -->> Server: Triggers the notification
-                        Server ->> Client: POST /notification - StateChangedNotification
-                        Client -->> Server: HTTP 201 Accepted
-                    </pre>
-                </div>
-            </section>
+              Server ->> Client: POST /callback - ChangeStateResponse
+              Client -->> Server: HTTP 201 Accepted
+          </pre>
+        </div>
+        </section>
+    
+        <section>
+          <h3>Notification</h3>
+          <div class="mermaid">
+              <pre>
+                  sequenceDiagram
+                  Device -->> Server: Triggers the notification
+                  Server ->> Client: POST /notification - StateChangedNotification
+                  Client -->> Server: HTTP 201 Accepted
+              </pre>
+          </div>
         </section>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@1.1.0/plugin/mermaid/mermaid.js"></script>
     <script>
       Reveal.initialize({
@@ -113,7 +181,7 @@
         center: true,
         hash: true,
         mermaid: {},
-        plugins: [RevealMermaid, RevealHighlight],
+        plugins: [RevealNotes, RevealMermaid, RevealHighlight],
       });
     </script>
   </body>
