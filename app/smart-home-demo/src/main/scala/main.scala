@@ -8,8 +8,8 @@ object main extends cask.MainRoutes:
   @cask.get(serviceEndpoint)
   private def wsdl(wsdl: Option[String] = None) =
     wsdl match
-      case Some("") => Response("WSDL for you!!!")
-      case _        => Response("Unsupported Operation", 405)
+      case Some("") => WSDLHandler.handle
+      case _        => Response("Unsupported operation", 405)
 
   @cask.post(serviceEndpoint)
   private def soap(request: Request) =

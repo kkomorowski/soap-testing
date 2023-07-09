@@ -1,0 +1,183 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="https://soap.hiquality.dev/smarthome"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  targetNamespace="https://soap.hiquality.dev/smarthome">
+
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="https://soap.hiquality.dev/smarthome"
+                    xmlns:tns="https://soap.hiquality.dev/smarthome">
+
+            <xsd:simpleType name="UUID">
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:simpleType name="DeviceType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Door"/>
+                    <xsd:enumeration value="Window"/>
+                    <xsd:enumeration value="Fridge"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:simpleType name="State">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="open"/>
+                    <xsd:enumeration value="closed"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:complexType name="Device">
+                <xsd:sequence>
+                    <xsd:element name="ID" type="tns:UUID"/>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="Type" type="tns:DeviceType"/>
+                    <xsd:element name="State" type="tns:State"/>
+                    <xsd:element name="Secret" type="xsd:hexBinary" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:simpleType name="ExecutionStatus">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OK"/>
+                    <xsd:enumeration value="FAILED"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+
+            <xsd:complexType name="BaseResponseType">
+                <xsd:sequence>
+                    <xsd:element name="ExecutionStatus" type="tns:ExecutionStatus"/>
+                    <xsd:element name="Message" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="GetDevicesRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Type" type="tns:DeviceType" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="GetDevicesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="DeviceList">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="Device" type="tns:Device" minOccurs="0" maxOccurs="unbounded"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="RegisterDeviceRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Device" type="tns:Device"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="RegisterDeviceResponse">
+                <xsd:complexType>
+                    <xsd:complexContent>
+                        <xsd:extension base="tns:BaseResponseType"/>
+                    </xsd:complexContent>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="DeviceStateChange">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="ID" type="tns:UUID"/>
+                        <xsd:element name="State" type="tns:State"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="GetDevicesRequest">
+        <wsdl:part name="parameters" element="tns:GetDevicesRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="GetDevicesResponse">
+        <wsdl:part name="parameters" element="tns:GetDevicesResponse"/>
+    </wsdl:message>
+
+    <wsdl:message name="DeviceStateChangeNotification">
+        <wsdl:part name="parameters" element="tns:DeviceStateChange"/>
+    </wsdl:message>
+
+    <wsdl:message name="RegisterDeviceRequest">
+        <wsdl:part name="parameters" element="tns:RegisterDeviceRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="RegisterDeviceResponse">
+        <wsdl:part name="parameters" element="tns:RegisterDeviceResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="SmartHomePortType">
+        <wsdl:operation name="GetDevices">
+            <wsdl:input message="tns:GetDevicesRequest"/>
+            <wsdl:output message="tns:GetDevicesResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="RegisterDevice">
+            <wsdl:input message="tns:RegisterDeviceRequest"/>
+            <wsdl:output message="tns:RegisterDeviceResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:portType name="SmartHomeNotificationPortType">
+        <wsdl:operation name="DeviceStateChanged">
+            <wsdl:input message="tns:DeviceStateChangeNotification"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="SmartHomeBinding" type="tns:SmartHomePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetDevices">
+            <soap:operation soapAction="https://soap.hiquality.dev/smarthome/GetDevices"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RegisterDevice">
+            <soap:operation soapAction="https://soap.hiquality.dev/smarthome/RegisterDevice"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:binding name="SmartHomeNotificationBinding" type="tns:SmartHomeNotificationPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="DeviceStateChanged">
+            <soap:operation soapAction="https://soap.hiquality.dev/smart-home/DeviceStateChanged"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="SmartHomeService">
+        <wsdl:port name="SmartHomePort" binding="tns:SmartHomeBinding">
+            <soap:address location="https://soap.hiquality.dev/smart-home-service"/>
+        </wsdl:port>
+        <wsdl:port name="SmartHomeNotificationPort" binding="tns:SmartHomeNotificationBinding">
+            <soap:address location="https://soap.hiquality.dev/smart-home-notification"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
