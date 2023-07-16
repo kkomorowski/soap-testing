@@ -1,8 +1,12 @@
 package dev.hiquality.smarthome
 
-import cask._
+import cask.*
+import org.slf4j.LoggerFactory
 
 object main extends cask.MainRoutes:
+
+  private val logger = LoggerFactory.getLogger(getClass)
+  override def verbose: Boolean = true
 
   private val serviceEndpoint = "smart-home-service"
   @cask.get(serviceEndpoint)
@@ -12,7 +16,11 @@ object main extends cask.MainRoutes:
       case _        => Response("Unsupported operation", 405)
 
   @cask.post(serviceEndpoint)
-  private def soap(request: Request) =
-    Response("", 201)
+  private def soap(request: Request) = {
+    logger.debug(request.toString)
+    val response = SOAPHandler.handle(request)
+    logger.debug(response.toString)
+    response
+  }
 
   initialize()
