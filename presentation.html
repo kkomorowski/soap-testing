@@ -91,7 +91,7 @@
         </section>
 
         <section data-background-image="images/background-old-computer.jpg">
-          <div class="background round">
+          <div class="background round" data-id="box">
             <h2>Examples of usage</h2>
             <div class="grid">
             <img src="images/amazon-s3-logo.svg" alt="Amazon S3" height="200px"/>
@@ -107,7 +107,7 @@
         </section>
 
         <section data-background-image="images/background-old-computer.jpg">
-          <div class="background round">
+          <div class="background round" data-id="box">
             <h2>Examples of usage</h2>
             <div class="grid">
             <img src="images/paypal-logo.svg" alt="Paypal" height="200px"/>
@@ -121,7 +121,7 @@
         </section>
 
         <section data-background-image="images/background-old-computer.jpg">
-          <div class="background round">
+          <div class="background round" data-id="box">
             <h2>Examples of usage</h2>
             <div class="grid">
             <img src="images/poczta-polska-logo.svg" alt="Poczta Polska" height="200px"/>
@@ -135,7 +135,7 @@
         </section>
 
         <section data-background-image="images/background-old-computer.jpg">
-          <div class="background round">
+          <div class="background round" data-id="box">
             <h2>Examples of usage</h2>
             <div class="grid">
             <img src="images/gsma-logo.svg" alt="GSMA SGP.02" height="200px"/>
@@ -148,11 +148,11 @@
           </div>
         </section>
 
-        <section data-markdown data-background-image="images/background-chess.jpg">
+        <section data-auto-animate data-markdown data-background-image="images/background-chess.jpg">
           <textarea data-template>
              <!-- .slide: class="background" -->
              ## REST vs SOAP
-             | Aspect         | SOAP               | REST                 |
+             | Aspect<!-- .element data-id="h1" -->| SOAP<!-- .element data-id="h2" -->| REST<!-- .element data-id="h3" -->|
              |----------------|--------------------|----------------------|
              | Protocol Type  | Messaging Protocol | Architectural Style  |
              | Message Format | XML                | XML, JSON, or others |
@@ -160,9 +160,9 @@
              <!-- .element class="smaller" -->
 
              ---
-             <!-- .slide: class="background" -->
+             <!-- .slide: class="background" data-id="table" -->
              ## REST vs SOAP
-             | Aspect            | SOAP                   | REST                   |
+             | Aspect<!-- .element data-id="h1" -->| SOAP<!-- .element data-id="h2" -->| REST<!-- .element data-id="h3" -->|
              |-------------------|------------------------|------------------------|
              | Statefulness      | Stateless and Stateful | Stateless              |
              | Transfer protocol | HTTP, SMTP and other   | HTTP                   |
@@ -173,7 +173,7 @@
              ---
              <!-- .slide: class="background" -->
              ## REST vs SOAP
-             | Aspect         | SOAP                    | REST                   |
+             | Aspect<!-- .element data-id="h1" -->| SOAP<!-- .element data-id="h2" -->| REST<!-- .element data-id="h3" -->|
              |----------------|-------------------------|------------------------|
              | Validation     | XSD                     | JSON Schema Validation |
              | Error Handling | SOAP Faults             | HTTP status codes      |
@@ -184,9 +184,9 @@
           </textarea>       
         </section>
         
-        <section data-background-image="images/background-code.jpg">
+        <section data-auto-animate data-background-image="images/background-code.jpg">
           <h2 class="white">Basic structure of SOAP message</h2>
-          <pre><code class="xml" data-trim data-line-numbers="1-8|4|5-7|1-8">
+          <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="1-8|4|5-7|6">
             <script type="text/template">
               <soapenv:Envelope 
                     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -213,6 +213,32 @@
                 or custom headers defined by the application. It is not mandatory 
                 and can be omitted if not required.</dd>
             </dl>
+          </aside>
+        </section>
+
+        <section data-auto-animate data-background-image="images/background-code.jpg">
+          <h2 class="white">Basic structure of SOAP message</h2>
+          <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="5-14">
+            <script type="text/template">
+              <soapenv:Envelope 
+                    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                    xmlns:web="https://soap.hiquality.dev/smarthome">
+                <soapenv:Body>
+                  <web:GetDevicesResponse>
+                    <DeviceList>
+                      <Device>
+                        <ID>cafebabe-0000-0000-0000-000000000001</ID>
+                        <Name>Window #1</Name>
+                        <Type>Window</Type>
+                        <State>open</State>
+                      </Device>
+                    </DeviceList>
+                  </web:GetDevicesResponse>
+                </soapenv:Body>
+              </soapenv:Envelope>
+            </script>
+          </code></pre>
+          <aside class="notes">
             <dl>
               <dt>Body</dt>
               <dd>
@@ -223,7 +249,29 @@
                 the data being exchanged.
               </dd>
             </dl>
+          </aside>
+        </section>
 
+        <section data-auto-animate data-background-image="images/background-code.jpg">
+          <h2 class="white">Basic structure of SOAP message</h2>
+          <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="5-11">
+            <script type="text/template">
+              <soapenv:Envelope 
+                    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                    xmlns:web="https://soap.hiquality.dev/smarthome">
+                <soapenv:Body>
+                  <soapenv:Fault>
+                    <faultcode>soap:Client</faultcode>
+                    <faultstring>
+                      Message part {https://soap.hiquality.dev/smarthome}GetDevicesRequests
+                      was not recognized. (Does it exist in service WSDL?)
+                    </faultstring>
+                  </soapenv:Fault>
+                </soapenv:Body>
+              </soapenv:Envelope>
+            </script>
+          </code></pre>
+          <aside class="notes">
             <dl>
               <dt>Fault (optional)</dt>
               <dd>
@@ -236,6 +284,7 @@
 
           </aside>
         </section>
+
 
         <section>
           <h2>XSD</h2>
@@ -320,6 +369,9 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@1.1.0/plugin/mermaid/mermaid.js"></script>
     <script>
       Reveal.initialize({
+        transition: 'fade',
+        backgroundTransition: 'fade',
+        autoAnimate: true,
         controls: true,
         progress: true,
         center: true,
