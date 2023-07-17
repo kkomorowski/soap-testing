@@ -14,6 +14,38 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme"/>
     <style>
       code { font-size: smaller;}
+      .left-align { text-align: left; padding-left: 40%; padding-right: 30%;}
+      .initial { 
+        font-weight: bold; 
+        font-size: 120%; 
+        border: 1px solid burlywood; 
+        border-radius: 5px; 
+        background-color: bisque;
+        width: 50px; 
+        display: inline-block; 
+        text-align: center;
+      }
+      .background {
+        background-color: rgba(255, 255, 255, 0.75);
+        border: 0px solid black; 
+      }
+      .round {
+        padding: 10px;
+        border-radius: 10px; 
+      }
+      .smaller {
+        font-size: 70%;
+      }
+      h2.white {
+        color: white;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+      }
     </style>
   </head>
 
@@ -21,28 +53,139 @@
     <div class="reveal">
       <div class="slides">
 
-        <section>
-            <h1>SOAP API Testing</h1>
-            <h2>Krzysztof Komorowski</h2>
+        <section data-background-image="images/background-soap.jpg">
+            <div class="background round">
+              <h1>SOAP API Testing</h1>
+              Krzysztof Komorowski
+            </div>
         </section>
         
-        <section>
-          <h2>What is SOAP API?</h2>
-          <span class="fragment">Simple</span> 
-          <span class="fragment">Object</span> 
-          <span class="fragment">Access</span> 
-          <span class="fragment">Protocol</span>
+        <section data-background-image="images/background-soap.jpg">
+          <div class="background round">
+            <div class="fragment left-align" data-fragment-index="0">
+              <span class="initial">S</span>
+              <span class="fragment" data-fragment-index="1">IMPLE</span>
+            </div>
+            <div class="fragment left-align" data-fragment-index="0">
+              <span class="initial">O</span>
+              <span class="fragment" data-fragment-index="2">BJECT</span>
+            </div>
+            <div class="fragment left-align" data-fragment-index="0">
+              <span class="initial">A</span>
+              <span class="fragment" data-fragment-index="3">CCESS</span>
+            </div>
+            <div class="fragment left-align" data-fragment-index="0">
+              <span class="initial">P</span>
+              <span class="fragment" data-fragment-index="4">ROTOCOL</span>
+            </div>
+          </div> 
         </section>
         
-        <section>
-          <h2>SOAP History</h2>
-          <p>SOAP is a successor of much previous technologies - RPC and XML-RPC.</p>
-          <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> 
-            on SOAP was published on May 8, 2000.</p>
+        <section data-background-image="images/background-old-computer.jpg">
+          <div class="background round">
+            <h2>SOAP History</h2>
+            <p>SOAP is a successor of much previous technologies - RPC and XML-RPC.</p>
+            <p>The first <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C note</a> 
+              on SOAP was published on May 8, 2000.</p>
+          </div>
+        </section>
+
+        <section data-background-image="images/background-old-computer.jpg">
+          <div class="background round">
+            <h2>Examples of usage</h2>
+            <div class="grid">
+            <img src="images/amazon-s3-logo.svg" alt="Amazon S3" height="200px"/>
+            <span class="smaller">
+              <h3>Amazon S3 SOAP API</h3>
+              <div>Status: Legacy</div>
+              <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/APISoap.html">
+                Amazon S3 SOAP API Specification
+              </a>
+            </span>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background-old-computer.jpg">
+          <div class="background round">
+            <h2>Examples of usage</h2>
+            <div class="grid">
+            <img src="images/paypal-logo.svg" alt="Paypal" height="200px"/>
+            <span class="smaller">
+              <h3>PayPal NVP/SOAP API</h3>
+              <div>Status: Legacy</div>
+              <a href="https://developer.paypal.com/api/nvp-soap/">PayPal NVP/SOAP API Specification</a>
+            </span>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background-old-computer.jpg">
+          <div class="background round">
+            <h2>Examples of usage</h2>
+            <div class="grid">
+            <img src="images/poczta-polska-logo.svg" alt="Poczta Polska" height="200px"/>
+            <span class="smaller">
+              <h3>Poczta Polska Parcel Tracking</h3>
+              <div>Status: Supported</div>
+              <a href="https://www.poczta-polska.pl/webservices/">Poczta Polska Parcel Tracking Specification</a>
+            </span>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-image="images/background-old-computer.jpg">
+          <div class="background round">
+            <h2>Examples of usage</h2>
+            <div class="grid">
+            <img src="images/gsma-logo.svg" alt="GSMA SGP.02" height="200px"/>
+            <span class="smaller">
+              <h3>GSMA SGP.02 API</h3>
+              <div>Status: Supported</div>
+              <a href="https://www.gsma.com/esim/resources/sgp-02-v4-2/">GSMA SGP.02 v4.2</a>
+            </span>
+            </div>
+          </div>
+        </section>
+
+        <section data-markdown data-background-image="images/background-chess.jpg">
+          <textarea data-template>
+             <!-- .slide: class="background" -->
+             ## REST vs SOAP
+             | Aspect         | SOAP               | REST                 |
+             |----------------|--------------------|----------------------|
+             | Protocol Type  | Messaging Protocol | Architectural Style  |
+             | Message Format | XML                | XML, JSON, or others |
+             | Overhead       | Heavy              | Lightweight          |
+             <!-- .element class="smaller" -->
+
+             ---
+             <!-- .slide: class="background" -->
+             ## REST vs SOAP
+             | Aspect            | SOAP                   | REST                   |
+             |-------------------|------------------------|------------------------|
+             | Statefulness      | Stateless and Stateful | Stateless              |
+             | Transfer protocol | HTTP, SMTP and other   | HTTP                   |
+             | HTTP Methods      | POST                   | GET, POST, PUT, DELETE |
+             | API Description   | WSDL                   | OpenAPI                |
+             <!-- .element class="smaller" -->
+
+             ---
+             <!-- .slide: class="background" -->
+             ## REST vs SOAP
+             | Aspect         | SOAP                    | REST                   |
+             |----------------|-------------------------|------------------------|
+             | Validation     | XSD                     | JSON Schema Validation |
+             | Error Handling | SOAP Faults             | HTTP status codes      |
+             | Security       | WS-Security             | HTTPS, JWS/JWE         |
+             | Caching        | Limited caching support | Built-in HTTP caching  |
+             <!-- .element class="smaller" -->
+
+          </textarea>       
         </section>
         
-        <section>
-          <h2>Basic structure of SOAP message</h2>
+        <section data-background-image="images/background-code.jpg">
+          <h2 class="white">Basic structure of SOAP message</h2>
           <pre><code class="xml" data-trim data-line-numbers="1-8|4|5-7|1-8">
             <script type="text/template">
               <soapenv:Envelope 
@@ -172,6 +315,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@1.1.0/plugin/mermaid/mermaid.js"></script>
     <script>
@@ -181,7 +325,7 @@
         center: true,
         hash: true,
         mermaid: {},
-        plugins: [RevealNotes, RevealMermaid, RevealHighlight],
+        plugins: [RevealNotes, RevealMermaid, RevealHighlight, RevealMarkdown],
       });
     </script>
   </body>
