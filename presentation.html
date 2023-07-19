@@ -184,8 +184,8 @@
           </textarea>       
         </section>
         
-        <section data-auto-animate data-background-image="images/background-code.jpg">
-          <h2 class="white">Basic structure of SOAP message</h2>
+        <section data-auto-animate>
+          <h2>Basic structure of SOAP message</h2>
           <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="1-8|4|5-7|6">
             <script type="text/template">
               <soapenv:Envelope 
@@ -216,8 +216,8 @@
           </aside>
         </section>
 
-        <section data-auto-animate data-background-image="images/background-code.jpg">
-          <h2 class="white">Basic structure of SOAP message</h2>
+        <section data-auto-animate>
+          <h2>Basic structure of SOAP message</h2>
           <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="5-14">
             <script type="text/template">
               <soapenv:Envelope 
@@ -252,9 +252,9 @@
           </aside>
         </section>
 
-        <section data-auto-animate data-background-image="images/background-code.jpg">
-          <h2 class="white">Basic structure of SOAP message</h2>
-          <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="5-11">
+        <section data-auto-animate>
+          <h2>Basic structure of SOAP message</h2>
+          <pre data-id="soap-message" class="smaller"><code class="xml" data-trim data-line-numbers="5-12">
             <script type="text/template">
               <soapenv:Envelope 
                     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -263,7 +263,8 @@
                   <soapenv:Fault>
                     <faultcode>soap:Client</faultcode>
                     <faultstring>
-                      Message part {https://soap.hiquality.dev/smarthome}GetDevicesRequests
+                      Message part 
+                      {https://soap.hiquality.dev/smarthome}GetDevicesRequests
                       was not recognized. (Does it exist in service WSDL?)
                     </faultstring>
                   </soapenv:Fault>
@@ -286,8 +287,23 @@
         </section>
 
 
-        <section>
+        <section data-auto-animate>
           <h2>XSD</h2>
+          <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-11|4-10|4">
+            <script type="text/template">
+              <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                    targetNamespace="https://soap.hiquality.dev/smarthome"
+                    xmlns:tns="https://soap.hiquality.dev/smarthome">
+                <xsd:simpleType name="DeviceType">
+                  <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Door"/>
+                    <xsd:enumeration value="Window"/>
+                    <xsd:enumeration value="Fridge"/>
+                  </xsd:restriction>
+                </xsd:simpleType>                    
+              </xsd>
+            </script>
+          </code></pre>
           <aside class="notes">
             <p>
               XSD (XML Schema Definition), also known as XML Schema, is a language
@@ -301,9 +317,36 @@
           </aside>
         </section>
 
-        <section>
+        <section data-auto-animate>
+          <h2>XSD</h2>
+          <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-5">
+            <script type="text/template">
+              <xsd:simpleType name="UUID">
+                <xsd:restriction base="xsd:string">
+                  <xsd:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}"/>
+                </xsd:restriction>
+              </xsd:simpleType>                    
+            </script>
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>XSD</h2>
+          <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-6">
+            <script type="text/template">
+              <xsd:simpleType name="OneToFortyTwo">
+                <xsd:restriction base="xsd:integer">
+                  <xsd:minExclusive value="0"/>
+                  <xsd:maxInclusive value="42"/>
+                </xsd:restriction>
+              </xsd:simpleType>                    
+            </script>
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
           <h2>XML Namespaces</h2>
-          <pre><code class="xml" data-trim data-line-numbers="1-4|1|2-3">
+          <pre data-id="xml-prefix"><code class="xml" data-trim data-line-numbers="1-4|1|2-3">
             <script type="text/template">
               <root xmlns:prefix="http://www.example.com/namespace">
                 <prefix:element1>...</prefix:element1>
@@ -313,9 +356,9 @@
           </code></pre>
         </section>
 
-        <section>
+        <section data-auto-animate>
           <h2>XML Namespaces</h2>
-          <pre><code class="xml" data-trim data-line-numbers="1-5|1-2|3|4">
+          <pre data-id="xml-prefix"><code class="xml" data-trim data-line-numbers="1-5|1-2|3|4">
             <script type="text/template">
               <root xmlns:space="http://www.example.com/namespace"
                     xmlns:other="http://www.example.com/other">
@@ -326,9 +369,9 @@
           </code></pre>
         </section>
 
-        <section>
+        <section data-auto-animate>
           <h2>XML Namespaces</h2>
-          <pre><code class="xml" data-trim data-line-numbers>
+          <pre data-id="xml-prefix"><code class="xml" data-trim data-line-numbers>
             <script type="text/template">
               <root xmlns:ns1="http://www.example.com/namespace">
                 <ns1:element1>...</ns1:element1>
@@ -338,9 +381,9 @@
           </code></pre>
         </section>
 
-        <section>
+        <section data-auto-animate>
           <h2>XML Namespaces</h2>
-          <pre><code class="xml" data-trim data-line-numbers>
+          <pre data-id="xml-prefix"><code class="xml" data-trim data-line-numbers>
             <script type="text/template">
               <root xmlns="http://www.example.com/namespace">
                 <element1>...</element1>
