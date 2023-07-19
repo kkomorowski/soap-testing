@@ -124,20 +124,6 @@
           <div class="background round" data-id="box">
             <h2>Examples of usage</h2>
             <div class="grid">
-            <img src="images/poczta-polska-logo.svg" alt="Poczta Polska" height="200px"/>
-            <span class="smaller">
-              <h3>Poczta Polska Parcel Tracking</h3>
-              <div>Status: Supported</div>
-              <a href="https://www.poczta-polska.pl/webservices/">Poczta Polska Parcel Tracking Specification</a>
-            </span>
-            </div>
-          </div>
-        </section>
-
-        <section data-background-image="images/background-old-computer.jpg">
-          <div class="background round" data-id="box">
-            <h2>Examples of usage</h2>
-            <div class="grid">
             <img src="images/gsma-logo.svg" alt="GSMA SGP.02" height="200px"/>
             <span class="smaller">
               <h3>GSMA SGP.02 API</h3>
@@ -288,7 +274,7 @@
 
 
         <section data-auto-animate>
-          <h2>XSD</h2>
+          <h2>XSD Simple Type</h2>
           <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-11|4-10|4">
             <script type="text/template">
               <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
@@ -318,7 +304,7 @@
         </section>
 
         <section data-auto-animate>
-          <h2>XSD</h2>
+          <h2>XSD Simple Type</h2>
           <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-5">
             <script type="text/template">
               <xsd:simpleType name="UUID">
@@ -331,7 +317,7 @@
         </section>
 
         <section data-auto-animate>
-          <h2>XSD</h2>
+          <h2>XSD Simple Type</h2>
           <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-6">
             <script type="text/template">
               <xsd:simpleType name="OneToFortyTwo">
@@ -340,6 +326,30 @@
                   <xsd:maxInclusive value="42"/>
                 </xsd:restriction>
               </xsd:simpleType>                    
+            </script>
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>XSD Complex Type</h2>
+          <pre data-id="xsd" class="smaller"><code class="xml" data-trim data-line-numbers="1-16|8-12">
+            <script type="text/template">
+              <xsd:complexType name="Device">
+                <xsd:sequence>
+                  <xsd:element name="ID" type="tns:UUID"/>
+                  <xsd:element name="Name" type="xsd:string"/>
+                  <xsd:element name="Type" type="tns:DeviceType"/>
+                  <xsd:element name="Status" type="tns:Status"/>
+                  <xsd:element name="Secret" minOccurs="0">
+                    <xsd:simpleType base="xsd:hexBinary">
+                      <xsd:restriction base="xs:hexBinary">
+                        <xsd:maxLength value="16"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                  <xsd:element name="Online" type="xsd:boolean"/>
+                </xsd:sequence>
+              </xsd:complexType>                    
             </script>
           </code></pre>
         </section>
@@ -393,8 +403,20 @@
           </code></pre>
         </section>
 
-        <section>
+        <section data-auto-animate>
           <h2>WSDL</h2>
+          <h3>Messages</h3>
+          <pre data-id="wsdl"><code class="xml" data-trim data-line-numbers>
+            <script type="text/template">
+              <wsdl:message name="GetDevicesRequest">
+                <wsdl:part name="parameters" element="tns:GetDevicesRequest"/>
+              </wsdl:message>
+
+              <wsdl:message name="GetDevicesResponse">
+                <wsdl:part name="parameters" element="tns:GetDevicesResponse"/>
+              </wsdl:message>
+            </script>
+          </code></pre>
           <aside class="notes">
             <p>
               WSDL stands for Web Services Description Language. It is
@@ -407,10 +429,76 @@
             <p>The WSDL might be compared to the OpenAPI / Swagger definitions.</p>
           </aside>
         </section>
-        
-        <section>
-          <h2>Synchronous and asynchronous calls</h2>
+
+        <section data-auto-animate>
+          <h2>WSDL</h2>
+          <h3>Port</h3>
+          <pre data-id="wsdl"><code class="xml" data-trim data-line-numbers>
+            <script type="text/template">
+              <wsdl:portType name="SmartHomePortType">
+                <wsdl:operation name="GetDevices">
+                  <wsdl:input message="tns:GetDevicesRequest"/>
+                  <wsdl:output message="tns:GetDevicesResponse"/>
+                </wsdl:operation>
+                <wsdl:operation name="RegisterDevice">
+                  <wsdl:input message="tns:RegisterDeviceRequest"/>
+                  <wsdl:output message="tns:RegisterDeviceResponse"/>
+                </wsdl:operation>
+              </wsdl:portType>
+            </script>
+          </code></pre>
         </section>
+
+        <section data-auto-animate>
+          <h2>WSDL</h2>
+          <h3>Port</h3>
+          <pre data-id="wsdl"><code class="xml" data-trim data-line-numbers>
+            <script type="text/template">
+              <wsdl:portType name="SmartHomePortType">
+                <wsdl:operation name="ChangeDeviceStatus">
+                  <wsdl:input message="tns:ChangeDeviceStatusRequest"/>
+                </wsdl:operation>
+              </wsdl:portType>
+            </script>
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>WSDL</h2>
+          <h3>Binding</h3>
+          <pre data-id="wsdl" class="smaller"><code class="xml" data-trim data-line-numbers>
+            <script type="text/template">
+              <wsdl:binding name="SmartHomeBinding" type="tns:SmartHomePortType">
+                <soap:binding style="document" 
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+                <wsdl:operation name="GetDevices">
+                  <soap:operation 
+                    soapAction="https://soap.hiquality.dev/smarthome/GetDevices"/>
+                </wsdl:operation>
+                <wsdl:operation name="RegisterDevice">
+                  <soap:operation 
+                    soapAction="https://soap.hiquality.dev/smarthome/Register"/>
+                </wsdl:operation>
+              </wsdl:binding>
+            </script>
+          </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>WSDL</h2>
+          <h3>Service</h3>
+          <pre data-id="wsdl" class="smaller"><code class="xml" data-trim data-line-numbers>
+            <script type="text/template">
+              <wsdl:service name="SmartHomeService">
+                <wsdl:port name="SmartHomePort" binding="tns:SmartHomeBinding">
+                  <soap:address 
+                    location="https://soap.hiquality.dev/smart-home-service"/>
+                </wsdl:port>
+              </wsdl:service>
+            </script>
+          </code></pre>
+        </section>
+        
         <section>
         <h3>Synchronous Call</h3>
         <div class="mermaid">
@@ -451,6 +539,17 @@
               </pre>
           </div>
         </section>
+
+        <section>
+          <h2>Exercise</h2>
+          <img src="https://logovectorseek.com/wp-content/uploads/2020/09/soapui-supported-by-smartbear-logo-vector.png" />
+        </section>
+
+        <section>
+          <h2>Exercise</h2>
+          <img src="https://junit.org/junit4/images/junit5-banner.png" />
+        </section>
+
       </div>
     </div>
 
